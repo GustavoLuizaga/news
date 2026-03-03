@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { News } from "./pages/News";
 import { NewDetails } from "./pages/NewDetails";
 import { Navbar } from "./components/NavBar";
+import { CreateNewsForm } from "./components/CreateNewsForm";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<News />} />
           <Route path="/news/:slug" element={<NewDetails />} />
+          <Route path="/create" element={<CreateNewsForm />} />
         </Routes>
       </main>
     </>
