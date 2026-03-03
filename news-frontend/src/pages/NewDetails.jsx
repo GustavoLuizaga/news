@@ -7,7 +7,7 @@ export function NewDetails() {
 
   const getNewDetails = async () => {
     const response = await fetch(
-      import.meta.env.VITE_BACKEND_URL + `/news/${slug}`
+      import.meta.env.VITE_BACKEND_URL + `/news/${slug}`,
     );
 
     if (!response.ok) {
@@ -28,12 +28,10 @@ export function NewDetails() {
 
   return (
     <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      
       <header className="mb-8 text-center sm:text-left">
         <p className="text-sm text-gray-500 mb-3 uppercase tracking-wide">
           {detailNew.category} •{" "}
-          {detailNew.date &&
-            new Date(detailNew.date).toLocaleDateString()}
+          {detailNew.date && new Date(detailNew.date).toLocaleDateString()}
         </p>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
@@ -51,10 +49,9 @@ export function NewDetails() {
         </div>
       )}
 
-      <p className="text-xl text-gray-700 leading-relaxed whitespace-pre-line">
+      <p className="text-xl text-gray-700 leading-relaxed whitespace-pre-line break-words">
         {detailNew.content}
       </p>
-
     </section>
   );
 }
