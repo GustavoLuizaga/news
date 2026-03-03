@@ -38,8 +38,9 @@ export function News() {
               title={newItem.title}
               author={newItem.author}
               category={newItem.category}
-              date={newItem.createdAt}
+              date={newItem.date}
               imageUrl={newItem.image}
+              slug={newItem.slug}
             />
           ))
         ) : (

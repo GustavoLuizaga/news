@@ -1,11 +1,17 @@
+import { useNavigate } from "react-router-dom";
 
-export function NewCard({ title, content, author, category, date, imageUrl }) {
+export function NewCard({ title, content, author, category, date, imageUrl, slug }) {
   const hasImage = !!imageUrl;
   const hasContent = !!content;
   const backendUrl = import.meta.env.VITE_BACKEND_URL || '';
+  const navigate = useNavigate();
+
+  const handleDetailsNew = () => {
+     navigate(`/news/${slug}`);
+  }
 
   return (
-    <article className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
+    <article onClick = {handleDetailsNew} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 cursor-pointer">
       {hasImage && (
         <div className="w-full h-52 overflow-hidden">
           <img
