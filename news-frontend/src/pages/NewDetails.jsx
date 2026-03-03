@@ -49,7 +49,7 @@ export function NewDetails() {
         </div>
       )}
 
-      <p className="text-xl text-gray-700 leading-relaxed whitespace-pre-line break-words">
+      <p className="text-xl text-gray-700 leading-relaxed whitespace-pre-line wrap-break">
         {detailNew.content}
       </p>
     </section>
