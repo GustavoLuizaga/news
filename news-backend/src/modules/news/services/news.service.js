@@ -2,6 +2,10 @@ import fs from "fs/promises";
 import matter from "gray-matter";
 import path from "path";
 import crypto from "crypto";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const createNewsService = async (newsData, imageFile) => {
   const { title, content, author, category, type } = newsData;
@@ -24,7 +28,7 @@ export const createNewsService = async (newsData, imageFile) => {
 
   let imagePath = null;
   if (imageFile) {
-    const uploadsDir = path.resolve("./src/modules/news/uploads");
+    const uploadsDir = path.join(__dirname, "..", "uploads");
     await fs.mkdir(uploadsDir, { recursive: true });
     const ext = path.extname(imageFile.originalname);
     const imageName = `${slug}-${id.slice(0, 8)}${ext}`;
@@ -33,7 +37,7 @@ export const createNewsService = async (newsData, imageFile) => {
     imagePath = `/uploads/${imageName}`;
   }
 
-  const contentDir = path.resolve("./src/modules/news/content");
+  const contentDir = path.join(__dirname, "..", "content");
   const filePath = path.join(contentDir, `${slug}.md`);
   await fs.mkdir(contentDir, { recursive: true });
 
@@ -66,7 +70,7 @@ ${content || ""}
 };
 
 export const getAllNewsService = async () => {
-  const contentDir = path.resolve("./src/modules/news/content");
+  const contentDir = path.join(__dirname, "..", "content");
   const files = await fs.readdir(contentDir);
   const newsList = [];
 
@@ -81,7 +85,7 @@ export const getAllNewsService = async () => {
 };
 
 export const getNewsBySlugService = async (slug) => {
-  const contentDir = path.resolve("./src/modules/news/content");
+  const contentDir = path.join(__dirname, "..", "content");
   const filePath = path.join(contentDir, `${slug}.md`);
 
   try {
@@ -100,7 +104,7 @@ export const getNewsBySlugService = async (slug) => {
 };
 
 export const deleteNewsService = async (slug) => {
-  const contentDir = path.resolve("./src/modules/news/content");
+  const contentDir = path.join(__dirname, "..", "content");
   const filePath = path.join(contentDir, `${slug}.md`);
 
   try {
