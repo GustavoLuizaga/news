@@ -5,13 +5,13 @@ export const loginUser = (req, res) => {
     const userData = { username, password };
     const result = loginUserService(userData);
     if(result.success) {
-        res.status(200).json({ message: result.message, ok: true });
+        res.status(200).json({ message: result.message, ok: result.success });
     } else {
-        res.status(401).json({ message: result.message, ok: false });
+        res.status(401).json({ message: result.message, ok: result.success });
     }
 };
 
 export const logoutUser = (req, res) => {
     const result = logoutUserService();
-    res.status(200).json({ message: result.message, ok: true });
+    res.status(200).json({ message: result.message, ok: result.success });
 }

@@ -27,7 +27,7 @@ export function News() {
   }, []);
 
   return (
-    <section>
+    <section className="mt-8">
       <h1 className="text-3xl font-bold mb-6">Noticias</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

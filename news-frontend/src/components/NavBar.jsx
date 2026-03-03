@@ -9,26 +9,45 @@ export function Navbar() {
 
   const { hasLogin, logout, login } = useAuth();
 
-  const handleLogin = (credentials) => {
-    console.log(credentials);
-    login(); 
+  const handleLogin = async (credentials) => {
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_BACKEND_URL + `/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(credentials),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.ok) {
+        login();
+      }
+    } catch (error) {
+      console.error("Error en login:", error);
+    }
   };
 
   return (
     <>
-      <nav className="bg-green-600 shadow-md">
+      <nav className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          
-          <Link to="/" className="text-2xl font-bold text-white">
+
+          <Link
+            to="/"
+            className="text-3xl font-extrabold text-emerald-600 tracking-tight"
+          >
             NEWS
           </Link>
 
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-8 text-gray-700 font-medium">
 
             {hasLogin && (
               <Link
                 to="/create"
-                className="bg-white text-green-600 px-4 py-2 rounded-md font-semibold hover:bg-gray-100 transition"
+                className="hover:text-emerald-600 transition"
               >
                 Crear Noticia
               </Link>
@@ -37,27 +56,26 @@ export function Navbar() {
             {hasLogin ? (
               <button
                 onClick={logout}
-                className="bg-red-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-red-700 transition"
+                className="hover:text-red-500 transition"
               >
                 Logout
               </button>
             ) : (
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="flex items-center gap-2 bg-white text-green-600 px-4 py-2 rounded-md font-semibold hover:bg-gray-100 transition"
+                className="text-emerald-600 hover:text-emerald-700 transition font-semibold"
               >
                 Iniciar sesión
               </button>
             )}
-
           </div>
 
           <button
-            className="md:hidden"
+            className="md:hidden text-gray-700"
             onClick={() => setIsOpen(!isOpen)}
           >
             <svg
-              className="w-6 h-6 text-white"
+              className="w-6 h-6"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -73,12 +91,12 @@ export function Navbar() {
         </div>
 
         {isOpen && (
-          <div className="md:hidden px-6 pb-4 flex flex-col gap-3">
+          <div className="md:hidden px-6 pb-4 flex flex-col gap-4 text-gray-700 font-medium">
 
             {hasLogin && (
               <Link
                 to="/create"
-                className="bg-white text-green-600 px-4 py-2 rounded-md text-center font-semibold"
+                className="hover:text-emerald-600 transition"
                 onClick={() => setIsOpen(false)}
               >
                 Crear Noticia
@@ -91,7 +109,7 @@ export function Navbar() {
                   logout();
                   setIsOpen(false);
                 }}
-                className="bg-red-600 text-white px-4 py-2 rounded-md font-semibold"
+                className="text-left hover:text-red-500 transition"
               >
                 Logout
               </button>
@@ -101,12 +119,11 @@ export function Navbar() {
                   setIsModalOpen(true);
                   setIsOpen(false);
                 }}
-                className="bg-white text-green-600 px-4 py-2 rounded-md font-semibold"
+                className="text-left text-emerald-600 font-semibold hover:text-emerald-700 transition"
               >
                 Iniciar sesión
               </button>
             )}
-
           </div>
         )}
       </nav>
