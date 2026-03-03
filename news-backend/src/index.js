@@ -1,6 +1,5 @@
 import ENV from "./config/env.config.js";
-import Server from "./config/server.config.js"
-import ENV from "./config/env.config.js";
+import Server from "./config/server.config.js";
 
 
 (() => {
