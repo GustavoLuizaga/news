@@ -3,16 +3,38 @@ import matter from "gray-matter";
 import path from "path";
 import crypto from "crypto";
 
-export const createNewsService = async (newsData) => {
-  const { title, content, author, category } = newsData;
+export const createNewsService = async (newsData, imageFile) => {
+  const { title, content, author, category, type } = newsData;
+
+  const validTypes = ["text", "image", "text_image"];
+  const newsType = validTypes.includes(type) ? type : "text";
+
+  if (newsType === "text" && !content) {
+    throw new Error("El contenido es obligatorio para noticias de tipo texto");
+  }
+  if (newsType === "image" && !imageFile) {
+    throw new Error("La imagen es obligatoria para noticias de tipo imagen");
+  }
+  if (newsType === "text_image" && (!content || !imageFile)) {
+    throw new Error("El contenido y la imagen son obligatorios para noticias de tipo texto e imagen");
+  }
 
   const id = crypto.randomUUID();
-
   const slug = title.toLowerCase().replace(/\s+/g, "-");
+
+  let imagePath = null;
+  if (imageFile) {
+    const uploadsDir = path.resolve("./src/modules/news/uploads");
+    await fs.mkdir(uploadsDir, { recursive: true });
+    const ext = path.extname(imageFile.originalname);
+    const imageName = `${slug}-${id.slice(0, 8)}${ext}`;
+    const imageFullPath = path.join(uploadsDir, imageName);
+    await fs.writeFile(imageFullPath, imageFile.buffer);
+    imagePath = `/uploads/${imageName}`;
+  }
 
   const contentDir = path.resolve("./src/modules/news/content");
   const filePath = path.join(contentDir, `${slug}.md`);
-
   await fs.mkdir(contentDir, { recursive: true });
 
   const markdown = `---
@@ -22,9 +44,11 @@ title: ${title}
 author: ${author}
 date: ${new Date().toISOString()}
 category: ${category}
+type: ${newsType}
+image: ${imagePath || ""}
 ---
 
-${content}
+${content || ""}
 `;
 
   await fs.writeFile(filePath, markdown);
@@ -35,6 +59,8 @@ ${content}
     slug,
     author,
     category,
+    type: newsType,
+    image: imagePath,
     createdAt: new Date().toISOString(),
   };
 };

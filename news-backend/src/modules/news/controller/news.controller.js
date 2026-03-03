@@ -2,15 +2,16 @@ import { createNewsService, getNewsBySlugService, getAllNewsService, deleteNewsS
 
 export const createNews = async (req, res) => {
   const newsData = req.body;
+  const imageFile = req.file || null;
   try {
-    const news = await createNewsService(newsData);
+    const news = await createNewsService(newsData, imageFile);
     res.status(201).json({
       message: "Noticia creada",
       data: news,
       ok: true,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(400).json({
       error: error.message,
       ok: false,
     });
