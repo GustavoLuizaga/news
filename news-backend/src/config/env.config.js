@@ -1,0 +1,10 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+const ENV = {
+    ADMIN_USERNAME: process.env.ADMIN_USERNAME || 'admin',
+    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'admin123',
+    FILEPATH_NEWS: process.env.FILEPATH_NEWS || "./src/modules/news/content"
+};
+
+export default ENV;

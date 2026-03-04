@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { newsRoutes } from "../modules/news/routes/news.routes.js";
+import  newsRoutes  from "../modules/news/routes/news.routes.js";
 
 const AppRoutes = Router();
 
